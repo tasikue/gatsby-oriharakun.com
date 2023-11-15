@@ -7,9 +7,11 @@ module.exports = {
     title: `脳内ｵﾘﾊﾗﾊﾟﾗﾀﾞｲｽ`,
     description: `なんかいろいろしてます。モットーは浅く広く。`,
     lang: `ja`,
+    author: `oriharakun`,
     siteUrl: `https://oriharakun.com/`,
   },
   plugins: [
+    `gatsby-plugin-sitemap`,
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
@@ -18,6 +20,23 @@ module.exports = {
       options: {
         name: `images`,
         path: `${__dirname}/src/images`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `recommens`,
+        path: `${__dirname}/src/contents/recommends`,
+      },
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          {
+            resolve: `gatsby-remark-images`,
+          },
+        ],
       },
     },
     // microCMS
@@ -53,5 +72,20 @@ module.exports = {
       },
     },
     `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-plugin-canonical-urls`,
+      options: {
+        siteUrl: `https://oriharakun.com/`,
+        stripQueryString: true,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-robots-txt`,
+      ortions: {
+        host: `https://oriharakun.com/`,
+        sitemap: `https://oriharakun.com/sitemap-index.xml`,
+        policy: [{ useAgent: `*`, allow: `/` }]
+      },
+    },
   ],
 }

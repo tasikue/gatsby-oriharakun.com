@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql, Link } from "gatsby"
+import { graphql, Link, Script } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { ImgixGatsbyImage } from '@imgix/gatsby'
 
@@ -22,6 +22,13 @@ const Index = ({ data }) => (
         {/* ブログタイトル */}
 			  <div className="home-title">
           <h3>古のほ～むぺ～じ、令和に生きる…</h3>
+          {/* 横スクロール */}
+          <div  class="marquee">
+            <p id="marL">
+              ☆★☆★☆★☆ゆっくりしていってね！☆★☆★☆★☆★
+            </p>
+          </div>
+
 				  <Link to={`/`}>
             <figure>
               <GatsbyImage
@@ -31,9 +38,11 @@ const Index = ({ data }) => (
           </Link>
 
           {/* 横スクロール */}
-          <p class="marquee">
-            ☆★☆★☆★☆ゆっくりしていってね！☆★☆★☆★☆★
-          </p>
+          <div  class="marquee">
+            <p id="marR">
+              ！！！不具合報告はTwitter(X)<a href="https://twitter.com/oRihaRakuN">@oriharakun</a>まで！！！
+            </p>
+          </div>
         </div>
 
         {/* アクセスカウンター */}
@@ -41,7 +50,7 @@ const Index = ({ data }) => (
           <p>あなたは
             <img src="http://www.rays-counter.com/d490_f6_022/6102bd71e104f/" alt="アクセスカウンター" border="1" />番目のお客様です。</p>
 			    <p>キリ番？ハハァ…</p>
-			    <p>最終更新: 20YY年MM月DD日</p>
+			    <p>最終更新: {data.siteBuildMetadata.buildTime}</p>
         </div>
 
         {/* グリッドシステム */}
@@ -77,7 +86,11 @@ const Index = ({ data }) => (
               <article className="home-card-about">
                 <Link to={`/about/`}>
                   <h2>あのね</h2>
-                  <div dangerouslySetInnerHTML={{ __html: `${data.about.content}`, }} />
+                  {data.about.edges.map(({ node }) => (
+                    <div key={node.id}>
+                      <div dangerouslySetInnerHTML={{ __html: `${node.content}`, }} />
+                    </div>
+                  ))}
                 </Link>
               </article>
             </div>
@@ -86,11 +99,14 @@ const Index = ({ data }) => (
           {/* トップ絵 */}
           <div id="c1" className="frame-pink">
             <article className="home-card-topillust">
+            {data.illust.edges.map(({ node }) => (
+              <div key={node.id}>
               <Link to={`/ar-illust/`}>
-                <figure>
-                  <img src={data.illust.eyecatch.url} alt={data.illust.name} />
-                </figure>
+                <div dangerouslySetInnerHTML={{ __html: `${node.content}`, }} />
+                <h2>{node.title}</h2>
               </Link>
+              </div>
+            ))}
             </article>
           </div>
 
@@ -174,7 +190,7 @@ const Index = ({ data }) => (
 
           {/* おしらせ */}
           <div id="d3" className="frame-green">
-            <article class="home-card-news">
+            <article className="home-card-news">
               <h2>おしらせ</h2>
               <p>外部での活動報告とかはここに書くかもです</p>
             </article>
@@ -186,7 +202,7 @@ const Index = ({ data }) => (
               <h2>最新記事</h2>
               <section>
                 {data.newarticle.edges.map(({ node }) => (
-                  <div key={node.id}>
+                  <div className="new" key={node.id}>
                     <Link to={`/blog/post/${node.category.categorySlug}/${node.slug}`}>
                       <h3>{node.title}</h3>
                       <figure>
@@ -209,21 +225,25 @@ const Index = ({ data }) => (
 
           {/* OFUSE */}
           <div id="a4" className="frame-green">
-            <article>
+            <article className="home-card-ofuse">
               <h2>お布施</h2>
-              <a
-                data-ofuse-widget-button
-                href="https://ofuse.me/o?uid=41821"
-                data-ofuse-id="41821"
-                data-ofuse-style="rectangle"
-              >
-                OFUSEする
-              </a>
-    					<script
-                async src="https://ofuse.me/assets/platform/widget.js"
-                charSet="utf-8"
-              >
-              </script>
+              <div className="ofuse">
+                <div className="ofuse-a">
+                  <a href="https://ofuse.me/o?uid=41821">OFUSEする</a>
+                </div>
+                {/* ブログパーツ */}
+                <div className="ofuse-button">
+                  <a
+                  data-ofuse-widget-button
+                  href="https://ofuse.me/o?uid=41821"
+                  data-ofuse-id="41821"
+                  data-ofuse-size="small"
+                  data-ofuse-color="pink">
+                    OFUSEする
+                  </a>
+                  <Script async src="https://ofuse.me/assets/platform/widget.js" />
+                </div>
+              </div>
             </article>
           </div>
 
@@ -231,7 +251,11 @@ const Index = ({ data }) => (
           <div id="b4" className="frame-pink">
             <article className="home-card-recommend">
               <h2>今月のおすすめ</h2>
-              <p>今はおすすめがありません。。。</p>
+              {data.recommend.edges.map(({ node }) => (
+                <div key={node.id}>
+                  <div dangerouslySetInnerHTML={{ __html: `${node.html}`, }} />
+              </div>
+            ))}
             </article>
           </div>
 
@@ -269,15 +293,29 @@ query {
     publicURL
     name
   }
-  about: microcmsBlogs(category: {categorySlug: {eq: "about"}}) {
-    content
+  about: allMicrocmsBlogs(
+    filter: {category: {categorySlug: {eq: "about"}}}
+    limit: 1
+    sort: {publicDate: DESC}
+  ) {
+    edges {
+      node {
+        id
+        content
+      }
+    }
   }
-  illust: microcmsBlogs(category: {categorySlug: {eq: "ar-illust"}}) {
-    title
-    eyecatch {
-      url
-      width
-      height
+  illust: allMicrocmsBlogs(
+    limit: 1
+    sort: {publicDate: DESC}
+    filter: {category: {categorySlug: {eq: "ar-illust"}}}
+  ) {
+    edges {
+      node {
+        id
+        title
+        content
+      }
     }
   }
   indexhome: file(relativePath: {eq: "nav2/logo-icon-ver.4-home.png"}) {
@@ -331,7 +369,11 @@ query {
   update: microcmsBlogs(category: {categorySlug: {eq: "update"}}) {
     content
   }
-  newarticle: allMicrocmsBlogs(limit: 3) {
+  newarticle: allMicrocmsBlogs(
+    limit: 3
+    sort: {publicDate: DESC}
+    filter: {category: {categorySlug: {glob: "ar*"}}}
+  ) {
     edges {
       node {
         id
@@ -345,6 +387,17 @@ query {
           width
           height
         }
+      }
+    }
+  }
+  siteBuildMetadata {
+    buildTime(formatString: "YYYY年MM月DD日hh時mm分")
+  }
+  recommend: allMarkdownRemark {
+    edges {
+      node {
+        id
+        html
       }
     }
   }

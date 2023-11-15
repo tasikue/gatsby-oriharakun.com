@@ -32,7 +32,7 @@ const Comic = ({ data, location }) => (
         <div className="comic-link">
           <h3>
             Pixiv:
-            <a href="https://www.pixiv.net/">anekatsu</a>
+            <a href="https://www.pixiv.net/users/17972676">anekatsu</a>
           </h3>
           <hr />
         </div>

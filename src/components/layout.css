@@ -15,10 +15,9 @@
 /* 基本 */
 html{
   font-family: 'sans-serif', 'メイリオ';
-  font-size: 1.2vw; /* 基本文字サイズ */
 }
 .container{
-  width: 84%;
+  width: 80%;
   max-width: 1920px;
   margin: 0px auto;
 }
@@ -37,13 +36,22 @@ img {
 svg {
   vertical-align: bottom;
 }
+/* 文字サイズ(一括) */
+html { font-size: 1.2vw; } /* 基本文字サイズ */
+h1 { font-size: 5rem; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.2rem; }
+@media (min-width: 768px) {
+  h2 { font-size: 1rem; }
+  h3 { font-size: 0.8rem; }
+}
 
 /* 背景デザイン */
 .box {
   /* 方眼紙模様に必須のスタイル */
   background-image: linear-gradient(0deg, transparent calc(100% - 1px), #def6ff calc(100% - 1px)),
                     linear-gradient(90deg, transparent calc(100% - 1px), #def6ff calc(100% - 1px));
-  background-size: 16px 16px;
+  background-size: 1.6vw 1.6vw;
   background-repeat: repeat;
   background-position: center center;
 
@@ -69,18 +77,16 @@ svg {
 	box-sizing: border-box;
 }
 .global-nav li{
-	width: 5vw;
-	margin-left: 1vw;
+	width: calc(50vw / 6);
+	margin-left: calc(10vw / 6);
 }
 .hover-transition li :hover{
 	transform: translateY(0.4vw);
 }
-
 .header .container {
-	max-width: 60vw;
-	height: 28vw;
+  width: 60vw;
+	height: 46vw;
 	box-sizing: border-box;
-	margin: 0 auto;
 }
 
 .header-top{
@@ -88,7 +94,7 @@ svg {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	padding-top: 4vw;
+	padding-top: 10vw;
 }
 /* ヘッダータイトル */
 .header-title {
@@ -99,10 +105,22 @@ svg {
 	text-align: center;
 	color: gray;
 }
-
 /* ヘッダーイラスト */
 .header-illust {
-	width: 20vw;
+	width: 22vw;
+}
+/* ヘッダー(pcサイズ) */
+@media (min-width: 768px) {
+  .global-nav li{
+  	width: 5vw;
+  	margin-left: 1vw;
+  }
+  .header .container {
+    height: 30vw;
+  }
+  .header-top{
+    padding-top: 4vw;
+  }
 }
 
 /* フッター(footer.js) */
@@ -124,7 +142,7 @@ svg {
   margin-bottom: 3vw;
 }
 .footer-title p {
-	font-size: calc(84vw * 0.3 / 24);
+	font-size: calc(84vw * 0.25 / 24);
 	text-align: center;
 }
 
@@ -143,18 +161,26 @@ svg {
 .sns {
 	display: flex;
 	list-style: none;
-	font-size: 1.4rem;
+	font-size: 3rem;
 	align-items: center;
 }
 .sns li:not(:last-child) {
-	margin-right: 30px;
+	margin-right: 3vw;
 }
 .svg-icon svg{
   display: inline-block;
 	fill: #222;
-  width: 1.5rem;
+  width: 3rem;
 	vertical-align: -0.125em;
   object-fit: contain;
+}
+@media (min-width: 768px) {
+  .sns {
+    font-size: 1.4rem;
+  }
+  .svg-icon svg{
+    width: 1.4rem;
+  }
 }
 
 /* コピーライト */
@@ -250,8 +276,7 @@ svg {
 .home .container {
 	color: white;
 	text-align: center;
-	max-width: 90vw;
-
+	width: 90vw;
 	position: relative;
 	top: -5vw;
 }
@@ -263,22 +288,33 @@ svg {
   font-size: calc(65VW * 0.4 / 16);
 }
 .access-counter{
-	margin-bottom: 5vw;
+  margin-bottom: 4vw;
 }
 .access-counter p {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
 	margin: 0.5vw auto;
 }
 .access-counter img{
   vertical-align: baseline;
-	width: 6vw;
+	width: 5vw;
 }
 .marquee {
-	animation: marquee-anim 10s linear infinite;
+  max-width: 100%;
+  overflow: hidden;
 }
-@keyframes marquee-anim {
-	0%   { transform: translate(200%, 0); }
-	100% { transform: translate(-200%, 0); }
+#marL {
+	animation: marquee-animL 10s linear infinite;
+}
+#marR {
+  animation: marquee-animR 10s linear infinite;
+}
+@keyframes marquee-animL {
+	0%   { transform: translate(100%, 0); }
+	100% { transform: translate(-100%, 0); }
+}
+@keyframes marquee-animR {
+	100%   { transform: translate(100%, 0); }
+	0% { transform: translate(-100%, 0); }
 }
 
 /* グリッドシステム */
@@ -288,11 +324,11 @@ svg {
 }
 .grid-layout article {
 	padding: 0.4vw;
-  height: 100%;
+  height: 14vw;
 }
 .grid-layout p {
 	text-align: left;
-  font-size: 0.7rem;
+  line-height: 1.5rem;
 }
 .frame-pink {
   margin: 0.2vw;
@@ -319,21 +355,22 @@ svg {
 /* -- ホームカード -- */
 /* プロフィール */
 .home-card-prof h2{
-  font-size: 1rem;
   margin-bottom: 0.2vw;
 }
 /* アイコン */
 .home-card-icon img {
   width: 100%;
-  max-height: 8.2vw;
+  max-height: 14vw;
   object-fit: cover;
   image-rendering: crisp-edges;
 }
 /* トプ絵（最新の絵） */
 .home-card-topillust img {
   width: 100%;
-  max-height: 17vw;
   object-fit: cover;
+}
+.home-card-topillust h2 {
+  text-align: left;
 }
 /* 目次 */
 .imdex-image {
@@ -342,22 +379,20 @@ svg {
   justify-content: center;
 }
 .imdex-image img {
-  width: 100%;
-  max-height: 9.5vw;
+  max-height: 14vw;
   object-fit: cover;
 }
-/* 更新履歴 ※とりあえず高さを数値で制限して抑制 */
-.home-card-update {
-  max-height: 18vw;
+/* 更新履歴  */
+.home-card-update div{
+  height: 27vw;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.home-card-update div{
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   text-align: left;
 }
 .home-card-update li {
   list-style: none;
+  margin-bottom: 0.3vw;
 }
 /* 最新記事 */
 .home-card-article section {
@@ -365,14 +400,33 @@ svg {
   flex-direction: row;
   justify-content: space-evenly;
 }
-.home-card-article h3 {
+.home-card-article .new {
+  max-width: 18vw;
+}
+.home-card-article h3{
   font-size: 0.8rem;
 }
 .home-card-article img{
-  width: 100%;
-  max-height: 4vw;
+  max-height: 8vw;
+  width: 16vw;
   object-fit: cover;
   object-position: 0 20%;
+}
+/* お布施 */
+.ofuse{
+    margin: 2vw auto;
+}
+.ofuse-a {
+  display: inline;
+}
+.ofuse-button {
+  display: none;
+}
+/* おすすめ */
+.home-card-recommend img{
+  max-height: 12vw;
+  object-fit: cover;
+  object-position: 0 30%;
 }
 /* 格言 */
 .home-card-kakugen p {
@@ -383,8 +437,38 @@ svg {
   .home .container {
     max-width: 65vw;
   }
+  .access-counter p {
+    font-size: 1.2rem;
+  }
+  .grid-layout article {
+    height: 10vw;
+  }
+  .grid-layout p {
+    font-size: 0.7rem;
+    line-height: 1rem;
+  }
   .home-card-icon img {
-    max-height: 9.5vw;
+    max-height: 10vw;
+  }
+  .imdex-image img {
+    max-height: 10vw;
+  }
+  .home-card-update div{
+    height: 19vw;
+    font-size: 0.6rem;
+  }
+  .home-card-article img{
+    width: 12vw;
+    max-height: 5vw;
+  }
+  .ofuse-a {
+    display: none;
+  }
+  .ofuse-button {
+    display: inline;
+  }
+  .home-card-recommend img{
+    max-height: 8vw;
   }
 }
 
@@ -401,7 +485,7 @@ svg {
 }
 /* 記事ページ */
 .post .container {
-  max-width: 65vw;
+  width: 90vw;
   padding-top: 5vw;
 }
 .pan-list svg{
@@ -436,8 +520,21 @@ svg {
 	content: '・';
 	margin: 0 5px;
 }
-.post-body{
+.post-body {
   margin: 5vw auto;
+}
+.post-body h2 {
+  font-size: 3rem;
+  margin-top: 10vw;
+  margin-bottom: 4vw;
+}
+.post-body img {
+  margin-top: 5vw;
+  margin-bottom: 5vw;
+}
+.post-body p {
+  margin-bottom: 3.6vw;
+  font-size: 2rem;
 }
 .post-link {
 	list-style: none;
@@ -464,6 +561,24 @@ svg {
 .post-link .next [class*="fa-"] {
 	margin-left: 10px;
 }
+@media (min-width: 768px) {
+  .post .container {
+    width: 65vw;
+  }
+  .post-body img {
+    margin-top: 1.2vw;
+    margin-bottom: 1.2vw;
+  }
+  .post-body h2 {
+    font-size: 2rem;
+    margin-top: 5vw;
+    margin-bottom: 2vw;
+  }
+  .post-body p {
+    font-size: 1rem;
+    margin-bottom: 2vw;
+  }
+}
 
 /* --- あのね --- (about.js) */
 .about {
@@ -474,15 +589,12 @@ svg {
 .about .container {
 	color: white;
 	text-align: left;
-	max-width: 60vw;
 	position: relative;
 	top: -5vw;
+  width: 95vw;
 }
 .about-title {
   margin-bottom: 3vw;
-}
-.about-title h1{
-	font-size: 5rem;
 }
 .about-title h3{
   font-size: 1.5rem;
@@ -524,6 +636,7 @@ svg {
   font-weight: 10;
 }
 .about-update {
+  display: none;
   position: absolute;
   right: -18vw;
 
@@ -541,12 +654,12 @@ svg {
   margin-bottom: 6px;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .about .container {
-    max-width: 84vw;
+    width: 60vw;
   }
   .about-update {
-    display: none;
+    display: block;
   }
 }
 
@@ -559,7 +672,7 @@ svg {
 .comic .container {
 	color: white;
 	text-align: center;
-	max-width: 75vw;
+	width: 95vw;
 	position: relative;
 	top: -5vw;
 }
@@ -618,6 +731,12 @@ svg {
   margin: 0.5%;
 }
 
+@media (min-width: 768px) {
+  .comic .container {
+    width: 65vw;
+  }
+}
+
 /* --- ゲーム--- (game.js) */
 .game {
 	background-image: none;
@@ -627,7 +746,7 @@ svg {
 .game .container {
 	color: white;
 	text-align: center;
-	max-width: 75vw;
+	width: 95vw;
 	position: relative;
 	top: -5vw;
 }
@@ -635,7 +754,7 @@ svg {
 .game-slide {
   position: relative;
   overflow: hidden;
-  left: -12.5vw;
+  left: -2.5vw;
   width: 100vw;
   height: calc(100vw * 0.364);
   background-color: #695187;
@@ -680,7 +799,14 @@ svg {
   color: #666;
   font-size: 0.8rem;
 }
-
+@media (min-width: 768px) {
+  .game .container {
+    width: 75vw;
+  }
+  .game-slide {
+    left: -12.5vw;
+  }
+}
 
 /* --- 工作 --- (made.js) */
 .made {
@@ -705,7 +831,7 @@ svg {
   color: #663117;
 }
 .made-post {
-  width: 75vw;
+  width: 95vw;
   margin: 0 auto;
   padding-top: 1.8vw;
   padding-bottom: 1.8vw;
@@ -714,7 +840,7 @@ svg {
   flex-wrap: wrap;
 }
 .made-post article {
-  width: 30%;
+  width: 45%;
   margin: 10px auto;
   border: thin solid white;
 }
@@ -744,6 +870,14 @@ svg {
   margin-top: -2.2vw;
   font-size: 0.2em;
   text-align: left;
+}
+@media (min-width: 768px) {
+  .made-post {
+    width: 75vw;
+  }
+  .made-post article {
+    width: 30%;
+  }
 }
 
 /* --- イラスト --- (illust.js) */
